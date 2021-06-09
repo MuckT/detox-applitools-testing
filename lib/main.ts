@@ -3,7 +3,7 @@ import * as path from 'path';
 import {ConsoleLogHandler} from '@applitools/eyes-common';
 import {DetoxEyes} from './detox-eyes';
 import {Config, ScreenshotOptions, TestEndDetails, TestReporter, TestStartDetails, TestStatus} from './types';
-import {getDeviceName, getDeviceType, getStatusBarHeight, takeScreenshot} from './detox';
+import {getDeviceName, getDeviceType, getDeviceModel, getStatusBarHeight, takeScreenshot} from './detox';
 
 const ONE_MINUTE = 60 * 1000;
 const DEFAULT_APPROVE_TIMEOUT = 10 * ONE_MINUTE;
@@ -19,6 +19,7 @@ export interface TestDetails {
 export class DetoxApplitoolsTesting {
   private deviceName: string;
   private deviceType: string;
+  private deviceModel: string;
   private statusBarHeight = 0;
   private finishedTests: TestDetails[] = [];
 
@@ -31,6 +32,7 @@ export class DetoxApplitoolsTesting {
 
     this.deviceType = getDeviceType();
     this.deviceName = getDeviceName();
+    this.deviceModel = getDeviceModel();
     this.statusBarHeight = getStatusBarHeight();
   }
 
@@ -101,7 +103,7 @@ export class DetoxApplitoolsTesting {
 
     eyes.setAppName(appName);
     eyes.setHostOS(this.deviceType);
-    eyes.setHostApp(this.deviceName);
+    eyes.setHostApp(this.deviceModel);
     eyes.setBatch(appName, batchId);
     eyes.setLogHandler(new ConsoleLogHandler(false));
     eyes.setScreenshotOptions({ignoredTopHeight: this.statusBarHeight});

@@ -9,6 +9,10 @@ export const getDeviceName = (): string => {
   return device.name;
 };
 
+export const getDeviceModel = (): string => {
+  return JSON.parse(device.name.split(/\s(.+)/)[1]).type;
+}
+
 export const getStatusBarHeight = (): number => {
   const deviceName = getDeviceName();
   const deviceInfo = Object.entries(statusBarHeights).find(([_height, devices]) => devices.indexOf(deviceName) !== -1);
